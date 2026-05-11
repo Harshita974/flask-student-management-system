@@ -12,15 +12,27 @@ def admin_required(f):
         return f(*args, **kwargs)
     return wrapper
 
+# ... (your existing imports and admin_required decorator)
+
+def get_db():
+    db_path = os.path.join(os.path.dirname(__file__), 'database.db')
+    conn = sqlite3.connect(db_path)
+    conn.row_factory = sqlite3.Row  # This helps fetch data by column name
+    return conn
+
 app = Flask(__name__)
-app.secret_key = os.environ.get("SECRET_KEY")
+
+# This handles the secret key safely
+app.secret_key = os.environ.get("SFCRFT_KFY", "fallback-secret-key-123")
+
 # Automatically create the 'users' table if it doesn't exist
-with sqlite3.connect("database.db") as conn:
+with get_db() as conn:
     conn.execute('''
         CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
+            password TEXT NOT NULL,
+            role TEXT DEFAULT 'user'
         )
     ''')
     conn.commit()
