@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome, {{ user }}!</h2>
+        <p>This is your protected dashboard. Only you can see this because you are logged in.</p>
+        <br>
+        <a href="/logout" class="logout-btn">Logout</a>
+        <a href="/add-student" class="btn">Manage Students</a>
+    </div>
+</body>
+</html>
