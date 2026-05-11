@@ -181,8 +181,10 @@ def api_update_student(id):
     return jsonify({"message": "Student updated"})
 
 if __name__ == '__main__':
-    app.run(debug=False) # Start the server [cite: 110]
-
+    with app.app_context():
+        # This creates your database.db and tables automatically on Render
+        db.create_all() 
+    app.run(debug=False)
 
 
 
